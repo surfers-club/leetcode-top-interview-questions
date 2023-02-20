@@ -4,32 +4,26 @@
  * @return {ListNode}
  */
 var addTwoNumbers = function(l1, l2) {
-    const sum = l1.val + l2.val + (this.leftOver || 0);
-    let [unitDigit, tensDigit = '0'] = sum.toString().split("").reverse();
-    unitDigit *= 1;
-    tensDigit *= 1;
-    this.leftOver = tensDigit;
-    
-    if (this.head) {
-        let current = this.head;
-        while (current.next) {
-            current = current.next;
+    var makeList = (l1, l2) => {
+        const curr = new ListNode((l1.val + l2.val), null);
+        if (l1.next && l2.next) {
+            curr.next = makeList(l1.next, l2.next);
+        } else if (l1.next || l2.next) {
+            curr.next = l1.next || l2.next;
         }
-        current.next = new ListNode(unitDigit, null);
-        this.tail = current.next;
-    } else {
-        this.head = new ListNode(unitDigit, null);
-        this.tail = head;
+        return curr;
     }
-
-    if (l1.next && l2.next) {
-        addTwoNumbers(l1.next, l2.next);
-    } else if (l1.next?.val || l2.next?.val) {
-        addTwoNumbers(l1.next || l2.next, new ListNode(0, null));
-    } else if (this.leftOver) {
-        this.tail.next = new ListNode(this.leftOver, null);
-        this.tail = this.tail.next;
+    
+    let head = makeList(l1, l2);
+    let tail = head;
+    while (tail.next || tail.val >= 10) {
+        let [unitDigit, tensDigit] = tail.val.toString().split("").reverse().map(Number);
+        tail.val = unitDigit
+        if (tensDigit) {
+            if (!tail.next) tail.next = new ListNode();
+            tail.next.val += tensDigit;
+        }
+        tail = tail.next;
     }
-
     return head;
 };
