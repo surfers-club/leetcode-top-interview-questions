@@ -8,9 +8,15 @@ function findMedianSortedArrays(nums1: number[], nums2: number[]): number {
         if(index2 === nums2.length || nums1[index1] <= nums2[index2]) {
             sortedNums[index1 + index2] = nums1[index1];
             index1++;
-        } else {
+
+            continue;
+        } 
+
+        if(index1 === nums1.length || nums2[index2] <= nums1[index1]) {
             sortedNums[index1 + index2] = nums2[index2];
             index2++;
+
+            continue;
         }
     }
 
