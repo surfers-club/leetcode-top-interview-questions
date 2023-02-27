@@ -4,12 +4,12 @@
  * @return {number}
  */
 var findMedianSortedArrays = function(nums1, nums2) {
-    const halfLength = (nums1.length + nums2.length) / 2;
     let m;
     let n;
-    let mergedArray = [];
+    const mergedArray = [];
+    const halfLength = (nums1.length + nums2.length) / 2;
     
-    while (mergedArray.length <= halfLength) {
+    for (i = 0; i <= halfLength; i++) {
         m = nums1.length - 1;
         n = nums2.length - 1;
         if (m >= 0 && n >= 0) {
