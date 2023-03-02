@@ -11,7 +11,7 @@ const getThePalindrome = (s: string, left: number, right: number): string => {
 function longestPalindrome(s: string): string {
     let palindrome = '';
 
-    for(let left = 0; left <= s.length; left++) {
+    for(let left = 0; left < s.length; left++) {
         const oddPalindrome = getThePalindrome(s, left, left);
         if(oddPalindrome.length > palindrome.length) {
             palindrome = oddPalindrome;
