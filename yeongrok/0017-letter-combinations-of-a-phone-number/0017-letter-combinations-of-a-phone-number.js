@@ -6,52 +6,43 @@ const digitMap = new Map([
     ["6", ["m", "n", "o"]],
     ["7", ["p", "q", "r", "s"]],
     ["8", ["t", "u", "v"]],
-    ["9", ["w", "x", "y", "z"]]
+    ["9", ["w", "x", "y", "z"]],
 ]);
 
 /**
  * @param {string} digits
  * @return {string[]}
  */
-var letterCombinations = function(digits) {
+const letterCombinations = function (digits) {
     const l = digits.length;
 
     if (l === 0) return [];
     if (l === 1) return digitMap.get(digits);
 
-    let output = [];
+    function discount(arr, i) {
+        if (i < 0) return false;
 
-    if (l === 2) {
-        digitMap.get(digits[0]).forEach(a => {
-            digitMap.get(digits[1]).forEach(b => {
-                output.push(`${a}${b}`);
-            })
-        });
-        return output;
+        arr[i]++;
+        if (arr[i] === digitMap.get(digits[i]).length) {
+            arr[i] = 0;
+            return discount(arr, i - 1);
+        }
+        return true;
     }
-    
-    if (l === 3) {
-        digitMap.get(digits[0]).forEach(a => {
-            digitMap.get(digits[1]).forEach(b => {
-                digitMap.get(digits[2]).forEach(c => {
-                    output.push(`${a}${b}${c}`);
-                })
-            })
-        });
-        return output;
-    }
-    
-    if (l === 4) {
-        digitMap.get(digits[0]).forEach(a => {
-            digitMap.get(digits[1]).forEach(b => {
-                digitMap.get(digits[2]).forEach(c => {
-                    digitMap.get(digits[3]).forEach(d => {
-                        output.push(`${a}${b}${c}${d}`);
-                    })
-                })
-            })
-        });
-        return output;
+
+    const output = [];
+    const pointers = Array(l).fill(0, 0);
+    let item = "";
+    let keepGoing = true;
+
+    while (keepGoing) {
+        for (let i = 0; i < l; i++) {
+            item += digitMap.get(digits[i])[pointers[i]];
+        }
+        output.push(item);
+        item = "";
+
+        keepGoing = discount(pointers, l - 1);
     }
 
     return output;
