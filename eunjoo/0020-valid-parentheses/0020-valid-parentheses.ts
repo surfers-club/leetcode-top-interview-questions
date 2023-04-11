@@ -1,6 +1,6 @@
 function isValid(s: string): boolean {
     const braketMap = {'(' : ')', '{' : '}', '[' : ']'};
-    let stack = [];
+    const stack = [];
 
     for(let i = 0; i < s.length; i++) {
         if(['(', '{', '['].includes(s[i])) {
